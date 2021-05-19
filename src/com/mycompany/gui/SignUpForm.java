@@ -22,6 +22,7 @@ package com.mycompany.gui;
 import com.codename1.components.FloatingHint;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
@@ -31,6 +32,7 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
+import com.mycompany.services.ServiceUsers;
 
 /**
  * Signup UI
@@ -46,32 +48,44 @@ public class SignUpForm extends BaseForm {
         tb.setUIID("Container");
         getTitleArea().setUIID("Container");
         Form previous = Display.getInstance().getCurrent();
-        tb.setBackCommand("", e -> previous.showBack());
+        tb.setBackCommand("", e -> new SignInForm(res).show());
         setUIID("SignIn");
                 
-        TextField username = new TextField("", "Username", 20, TextField.ANY);
+        TextField nom = new TextField("", "Nom", 20, TextField.ANY);
+        TextField prenom = new TextField("", "Prenom", 20, TextField.ANY);
+                TextField photo = new TextField("", "Photo", 20, TextField.ANY);
+
+
         TextField email = new TextField("", "E-Mail", 20, TextField.EMAILADDR);
         TextField password = new TextField("", "Password", 20, TextField.PASSWORD);
-        TextField confirmPassword = new TextField("", "Confirm Password", 20, TextField.PASSWORD);
-        username.setSingleLineTextArea(false);
+        
+        TextField Confirmpassword = new TextField("", "Confirm Password", 20, TextField.PASSWORD);
+        nom.setSingleLineTextArea(false);
+                prenom.setSingleLineTextArea(false);
+           photo.setSingleLineTextArea(false);
         email.setSingleLineTextArea(false);
         password.setSingleLineTextArea(false);
-        confirmPassword.setSingleLineTextArea(false);
-        Button next = new Button("Next");
+        
+        Confirmpassword.setSingleLineTextArea(false);
+        Button next = new Button("Sign Up");
         Button signIn = new Button("Sign In");
-        signIn.addActionListener(e -> previous.showBack());
+        signIn.addActionListener(e -> new SignInForm(res).show());
         signIn.setUIID("Link");
         Label alreadHaveAnAccount = new Label("Already have an account?");
         
         Container content = BoxLayout.encloseY(
                 new Label("Sign Up", "LogoLabel"),
-                new FloatingHint(username),
+                new FloatingHint(nom),
+                createLineSeparator(),
+                 new FloatingHint(prenom),
+                createLineSeparator(),
+                 new FloatingHint(photo),
                 createLineSeparator(),
                 new FloatingHint(email),
                 createLineSeparator(),
                 new FloatingHint(password),
                 createLineSeparator(),
-                new FloatingHint(confirmPassword),
+                new FloatingHint(Confirmpassword),
                 createLineSeparator()
         );
         content.setScrollableY(true);
@@ -81,7 +95,17 @@ public class SignUpForm extends BaseForm {
                 FlowLayout.encloseCenter(alreadHaveAnAccount, signIn)
         ));
         next.requestFocus();
-        next.addActionListener(e -> new ActivateForm(res).show());
+        next.addActionListener(e -> 
+        {
+            ServiceUsers.getInstance().signup(nom, prenom, photo, email, password, Confirmpassword, res);
+            Dialog.show("Success", "Accoun is saved", "ok", null);
+            new SignInForm(res).show();
+        }
+        
+        
+        
+        
+        );
     }
     
 }
