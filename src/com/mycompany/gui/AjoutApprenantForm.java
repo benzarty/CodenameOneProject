@@ -150,11 +150,6 @@ ButtonGroup barGroup = new ButtonGroup();
          new ListeApprenantForm(res).show();
     refreshTheme();
 
-   
-    
-    
-    
-    
     }
         }
         catch (Exception ex) {

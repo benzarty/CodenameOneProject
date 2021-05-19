@@ -127,13 +127,13 @@ addOrientationListener(e -> {
 
    Button Apprenants=new Button("Gestions Apprenants");
 
-   Button play=new Button("Theatres");
+   Button Evenement=new Button("Evenement");
    Button movie=new Button("Movies");
    Button cinema=new Button("Cinemas");
     Button musicien=new Button("Musiciens");
      Button tactor=new Button("Theatre Actor");
       Button factor=new Button("Movie Actor");
-   f1.addAll(Apprenants,play,movie,cinema,musicien,tactor,factor);
+   f1.addAll(Apprenants,Evenement,movie,cinema,musicien,tactor,factor);
         add(f1);
 
 
@@ -146,7 +146,8 @@ addOrientationListener(e -> {
         });
  
      //ON CLICK CONCERT
- play.addPointerPressedListener(l->{
+ Evenement.addPointerPressedListener(l->{
+      new EventForm(res).show();
 
           
 
