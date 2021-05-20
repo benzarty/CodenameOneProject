@@ -131,9 +131,9 @@ addOrientationListener(e -> {
    Button Reclamation=new Button("Reclamation");
    Button Statistique=new Button("Statistique");
     Button Formtion=new Button("Gestion Formtion");
-     Button tactor=new Button("Theatre Actor");
-      Button factor=new Button("Movie Actor");
-   f1.addAll(Apprenants,Evenement,Reclamation,Statistique,Formtion,tactor,factor);
+     Button logout=new Button("Log out ");
+     
+   f1.addAll(Apprenants,Evenement,Reclamation,Statistique,Formtion,logout);
         add(f1);
 
 
@@ -172,8 +172,9 @@ addOrientationListener(e -> {
         
 
         });
-     tactor.addPointerPressedListener(l->{
-
+     logout.addPointerPressedListener(l->{
+         
+new SignInForm(res).show();
            
 
         });

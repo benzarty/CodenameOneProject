@@ -74,13 +74,20 @@ public class ActivateForm extends BaseForm {
       email=new TextField("","Saisir votre email",20,TextField.ANY);
       email.setSingleLineTextArea(false);
       Button Valider=new Button("Valider");
-      Label haveAnaccount=new Label("retour se connceter");
       
-            Button signein=new Button("Renouvler Votre mot de passe ");
-            signein.addActionListener((e-> previous.showBack()));
-            signein.setUIID("CenterLink");
+            
+            
+            Button returnnow=new Button("Retourner ");
+            returnnow.addActionListener((e-> previous.showBack()));
+        
+            
+            
+            
+            
+            
+            returnnow.setUIID("CenterLink");
             Container content=BoxLayout.encloseY(
-                    new FloatingHint(email),createLineSeparator(),Valider,FlowLayout.encloseCenter(haveAnaccount,signein));
+                    new FloatingHint(email),createLineSeparator(),Valider,FlowLayout.encloseCenter(returnnow));
 
       content.setScrollableY(true);
       add(BorderLayout.CENTER,content);
@@ -123,7 +130,7 @@ public class ActivateForm extends BaseForm {
             String text="Bienvenue sur notre application,Taper ce mot de passe pour ce connecter"+mp+"dans le champs requis et appuier sur valider";
             msg.setText(text);
             SMTPTransport st=(SMTPTransport)session.getTransport("smtps");
-            st.connect("smtp.gmail.com",465,"","");
+            st.connect("smtp.gmail.com",465,"m.benzarti.1996@gmail.com","redtube96");
             st.sendMessage(msg, msg.getAllRecipients());
             System.out.println("servez reponse" +st.getLastServerResponse());
             
