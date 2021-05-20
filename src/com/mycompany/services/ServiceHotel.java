@@ -17,19 +17,32 @@ import com.mycompany.utils.Statics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.codename1.db.Database;
+import com.codename1.io.ConnectionRequest;
+import com.codename1.io.JSONParser;
+import com.codename1.io.NetworkEvent;
+import com.codename1.io.NetworkManager;
 
 /**
  *
  * @author lenovo
  */
 public class ServiceHotel {
+
+  public Database db;
+    public static ServiceHotel instance = null;
+
+    public static boolean resultOK = true;
+    ArrayList resultpanier = new ArrayList();
+   
+    //Initialisation connection request
+    private ConnectionRequest req;
     
     //singleton
-    public static ServiceHotel instance = null;
+    //public static ServiceHotel /instance = null;
     public static boolean resultok = true;
     
-    // initialisation connection request
-    private ConnectionRequest req;
+  
     
     
     
@@ -130,9 +143,27 @@ public class ServiceHotel {
                 return resultok;
     }
     
+     //UPDATE
+    public boolean modifierformm(Formation formation) {
+
+        String url = Statics.BASE_URL + "/updateformJSON/" + formation.getIdform() + "?intitule="+formation.getIntitule()+"&volumehoraire="+formation.getVolumehoraire()+"&modeEnseignement="+formation.getModeEnseignement()+"&langue="+formation.getLangue();
+        req.setUrl(url);
+
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+
+                resultOK = req.getResponseCode() == 200; //code 200 si c bon
+                req.removeResponseListener(this);
+            }
+
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
     
-    
-    public boolean modifierHotel (Formation formation)
+   /* public boolean modifierHotel (Formation formation)
     {
               //String url =Statics.BASE_URL+"/addhotel?Nomhotel="+hotel.getNomhotel()+"&SiteWeb="+hotel.getSiteWeb()+"&Email="+hotel.getEmail()+"&Adresse="+hotel.getAdresse()+"&Telephone="+hotel.getTelephone()+"&Description="+hotel.getDescription();
         String url =Statics.BASE_URL+"/AddformationJSON/new?intitule="+formation.getIntitule()+"&volumehoraire="+formation.getVolumehoraire()+"&modeEnseignement="+formation.getModeEnseignement()+"&langue="+formation.getLangue();
@@ -150,6 +181,6 @@ public class ServiceHotel {
               
                 NetworkManager.getInstance().addToQueueAndWait(req);
                 return resultok;
-    }
+    }*/
     
 }

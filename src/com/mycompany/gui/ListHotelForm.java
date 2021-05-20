@@ -214,7 +214,7 @@ public class ListHotelForm extends BaseForm {
                         )
                 );
         
-        swipe.addTab("", res.getImage("logo0.png"),page1);
+        swipe.addTab("", res.getImage("image.jpg"),page1);
     }
     
     

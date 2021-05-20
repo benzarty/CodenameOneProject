@@ -44,11 +44,7 @@ public class ModifierHotelForm extends BaseForm {
         TextField Telephone = new TextField(forma.getModeEnseignement(),"Telephone",20, TextField.ANY);
        ;
         
-        ComboBox etatcombo = new ComboBox();
-        
-        etatcombo.addItem("non reserve");
-        
-        etatcombo.addItem("reserve");      
+    
         
         
         Nomhotel.setUIID("NewsTopLine");
@@ -78,7 +74,7 @@ public class ModifierHotelForm extends BaseForm {
           
         
         
-        if(ServiceHotel.getInstance().modifierHotel(forma))
+        if(ServiceHotel.getInstance().modifierformm(forma))
         {
             new ListHotelForm(res).show();
         }

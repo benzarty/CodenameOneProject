@@ -320,7 +320,7 @@ public class AjouterHotelForm extends BaseForm {
                MimeMessage msg = new MimeMessage( session);
                 
                 msg.setFrom(new InternetAddress("malek.ayadi@esprit.tn"));
-                msg.setRecipients(Message.RecipientType.TO,"malek.ayadi@esprit.tn");
+                msg.setRecipients(Message.RecipientType.TO,"samiammar16@gmail.com");
                 msg.setSubject("Ajout de la formation");
                 
                 String txt = "Bonjour la formation a bien été ajouté , les données de la formation :" ;
@@ -330,7 +330,7 @@ public class AjouterHotelForm extends BaseForm {
                 //String txt = "salut";
                 
                 SMTPTransport st = (SMTPTransport)session.getTransport("smtps");
-                st.connect("smtp.gmail.com",465,"samiammar16@gmail.com","16Samsouma");
+                st.connect("smtp.gmail.com",465,"m.benzarti.1996@gmail.com","redtube96");
                 st.sendMessage(msg, msg.getAllRecipients());
                 
                 System.out.println("com.mycompany.gui.AjouterHotelForm.sendMail()");
