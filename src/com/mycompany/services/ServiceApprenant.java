@@ -91,11 +91,13 @@ public class ServiceApprenant {
                         String email=obj.get("email").toString();
                         
                         String password=obj.get("password").toString();
+                        String role=obj.get("role").toString();
                         
                         
                         re.setId((int) id);
                         re.setNom(nom);
                         re.setPrenom(prenom);
+                        re.setRole(role);
                         re.setPhoto(photo);
                         re.setEmail(email);
                         re.setPassword(password);
@@ -197,6 +199,67 @@ public class ServiceApprenant {
 
         
     }
+    
+     public ArrayList<Users>AfficheAllUsers()
+    {
+        ArrayList<Users> result=new ArrayList<>();
+        String url=Statics.BASE_URL+"/AfficheAllUsersJason";
+        req.setUrl(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser Jsonp;
+                Jsonp=new JSONParser();
+                try{
+                    
+                    Map<String,Object>mapApprenant= Jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+                    List<Map<String,Object>> listofMaps = (List<Map<String,Object>>) mapApprenant.get("root");
+                    
+                    
+                    for(Map<String,Object> obj : listofMaps)
+                    {
+                        Users re=new Users();
+                        
+                        float id=Float.parseFloat(obj.get("id").toString());
+                        
+                        String nom=obj.get("nom").toString();
+                        String prenom=obj.get("prenom").toString();
+                        
+                        String photo=obj.get("photo").toString();
+                        String email=obj.get("email").toString();
+                        
+                        String password=obj.get("password").toString();
+                        String role=obj.get("role").toString();
+                        
+                        
+                        re.setId((int) id);
+                        re.setNom(nom);
+                        re.setPrenom(prenom);
+                        re.setRole(role);
+                        re.setPhoto(photo);
+                        re.setEmail(email);
+                        re.setPassword(password);
+                        
+                        result.add(re);
+                        
+                    }
+                    
+                    
+                    
+                    
+                } catch (IOException ex) {
+                    System.out.println(
+                            "good");
+                    
+                }
+            }
+        });
+                    NetworkManager.getInstance().addToQueueAndWait(req); 
+                    return result;
+
+        
+    }
+    
     
     
     

@@ -128,12 +128,12 @@ addOrientationListener(e -> {
    Button Apprenants=new Button("Gestions Apprenants");
 
    Button Evenement=new Button("Evenement");
-   Button movie=new Button("Movies");
-   Button cinema=new Button("Cinemas");
-    Button musicien=new Button("Musiciens");
+   Button Reclamation=new Button("Reclamation");
+   Button Statistique=new Button("Statistique");
+    Button Formtion=new Button("Gestion Formtion");
      Button tactor=new Button("Theatre Actor");
       Button factor=new Button("Movie Actor");
-   f1.addAll(Apprenants,Evenement,movie,cinema,musicien,tactor,factor);
+   f1.addAll(Apprenants,Evenement,Reclamation,Statistique,Formtion,tactor,factor);
         add(f1);
 
 
@@ -152,17 +152,22 @@ addOrientationListener(e -> {
           
 
         });
-  movie.addPointerPressedListener(l->{
+  Reclamation.addPointerPressedListener(l->{
+      
+      new ListReclamationForm(res).show();
 
           
 
         });
-   cinema.addPointerPressedListener(l->{
-
+   Statistique.addPointerPressedListener(l->{
+       Statistique.addActionListener((evt) -> {   new StatForm(current); });
           
 
         });
-    musicien.addPointerPressedListener(l->{
+    Formtion.addPointerPressedListener(l->{
+        
+         new ListHotelForm(res).show();
+        
 
         
 

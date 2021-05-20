@@ -54,7 +54,14 @@ import java.util.ArrayList;
 public class EventForm extends BaseForm {
        public EventForm(Resources res) {    
            
-       // super("Evenements", BoxLayout.y());
+                super("Evenements", BoxLayout.y());
+                Toolbar tb = new Toolbar(false);
+                setToolbar(tb);
+                tb.setUIID("Container");
+                getTitleArea().setUIID("Container");
+                Form previous = Display.getInstance().getCurrent();
+                tb.setBackCommand("", e -> previous.showBack());
+                setUIID("SignIn");
         
               getStyle().setBgColor(255200100);
               String url = "http://127.0.0.1:8000/uploads";
@@ -62,14 +69,14 @@ public class EventForm extends BaseForm {
               
               ArrayList<Evenement> list = ServiceEvenement.getInstance().affichageEvenement();
                EncodedImage enc = null;    
-               Toolbar tb = new Toolbar();
+              // Toolbar tb = new Toolbar();
                //tb.getStyle().setBgColor(255);
                setToolbar(tb);
                getTitleArea().setUIID("Container");
                
               // setTitle("E");
  
-               getContentPane().setScrollVisible(true);
+               getContentPane().setScrollVisible(false);
                
                //super.addSideMenu(res);
                Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
@@ -143,7 +150,6 @@ public class EventForm extends BaseForm {
                for (Evenement u : list) {
                    photo = URLImage.createToStorage(enc, url+"/"+u.getImage(), url+"/"+u.getImage(), URLImage.RESIZE_SCALE);
                    //System.out.println(url+"/"+u.getImage());
-                   
                    this.addButton(photo, u.getTheme(), false, u.getDate(), u.getPresentateur(), u.getLien());
                }  
 
