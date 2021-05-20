@@ -61,11 +61,11 @@ public class AjouterHotelForm extends BaseForm {
     public AjouterHotelForm(Resources res)
     {
         super("Newsfeed",BoxLayout.y());
-        Toolbar tb = new Toolbar(true);
+        Toolbar tb = new Toolbar(false);
         current = this;
         setToolbar(tb);
         getTitleArea().setUIID("container");
-        setTitle("AjouterHotel");
+        setTitle("AjouterFormation");
         getContentPane().setScrollVisible(false);
         
         tb.addSearchCommand(e -> {
@@ -119,12 +119,12 @@ public class AjouterHotelForm extends BaseForm {
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton mesListes = RadioButton.createToggle("Les hotels", barGroup);
-        mesListes.setUIID("SelectBar");
-        RadioButton liste = RadioButton.createToggle("Autres", barGroup);
-        liste.setUIID("SelectBar");
-        RadioButton partage = RadioButton.createToggle("Reclamer", barGroup);
+        RadioButton partage = RadioButton.createToggle("Home", barGroup);
         partage.setUIID("SelectBar");
+        //RadioButton liste = RadioButton.createToggle("Autres", barGroup);
+        //liste.setUIID("SelectBar");
+        RadioButton mesListes = RadioButton.createToggle("Formation", barGroup);
+       mesListes.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
 
@@ -136,9 +136,15 @@ public class AjouterHotelForm extends BaseForm {
           //  a.show();
             refreshTheme();
         });
+        
+         partage.addActionListener((e) -> {
+         
+         new ActionsTodo(res).show();
+        
+       });
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, mesListes, liste, partage),
+                GridLayout.encloseIn(3, mesListes, partage),
                 FlowLayout.encloseBottom(arrow)
         ));
 
@@ -149,7 +155,7 @@ public class AjouterHotelForm extends BaseForm {
             updateArrowPosition(partage, arrow);
         });
         bindButtonSelection(mesListes, arrow);
-        bindButtonSelection(liste, arrow);
+       
         bindButtonSelection(partage, arrow);
         // special case for rotation
         addOrientationListener(e -> {
@@ -161,28 +167,28 @@ public class AjouterHotelForm extends BaseForm {
         //
         
         //Nomhotell
-        TextField Nomhotel = new TextField("", "enter inttitule");
-        Nomhotel.setUIID("TextFieldBlack");
-        addStringValue("Intitule",Nomhotel);
+        TextField intitule = new TextField("", "enter inttitule");
+        intitule.setUIID("TextFieldBlack");
+        addStringValue("Intitule",intitule);
         
 
 
         //SiteWeb
-         TextField SiteWeb = new TextField("", "enter volumehoraire");
-        SiteWeb.setUIID("TextFieldBlack");
-        addStringValue("volumehoraire",SiteWeb);
+         TextField volumehoraire = new TextField("", "enter volumehoraire");
+        volumehoraire.setUIID("TextFieldBlack");
+        addStringValue("volumehoraire",volumehoraire);
         
         
         //Email
-         TextField Email = new TextField("", "enter langue");
-        Email.setUIID("TextFieldBlack");
-        addStringValue("Langue",Email);
+         TextField langue = new TextField("", "enter langue");
+        langue.setUIID("TextFieldBlack");
+        addStringValue("Langue",langue);
         
         
         //Telephone
-         TextField Telephone = new TextField("", "enter modeEnseignement");
-        Telephone.setUIID("TextFieldBlack");
-        addStringValue("modeEnseignement",Telephone);
+         TextField modeEnseignement = new TextField("", "enter modeEnseignement");
+        modeEnseignement.setUIID("TextFieldBlack");
+        addStringValue("modeEnseignement",modeEnseignement);
         
         
         
@@ -195,7 +201,7 @@ public class AjouterHotelForm extends BaseForm {
         btnAjouter.addActionListener((e) -> {
             try
             {
-                if (Nomhotel.getText().equals("")|| SiteWeb.getText().equals("")|| Email.getText().equals("")  || Telephone.getText().equals("") )
+                if (intitule.getText().equals("")|| volumehoraire.getText().equals("")|| langue.getText().equals("")  || modeEnseignement.getText().equals("") )
                 {                   // sendMail();
 
                     Dialog.show("verifier les donnes","" ,"Annuler","OK");
@@ -206,11 +212,11 @@ public class AjouterHotelForm extends BaseForm {
                         InfiniteProgress ip = new InfiniteProgress(); //loading after insert data
                         final Dialog iDialog = ip.showInfiniteBlocking();
                         
-                        Formation h = new Formation(String.valueOf(Nomhotel.getText()).toString(),
+                        Formation h = new Formation(String.valueOf(intitule.getText()).toString(),
                         
-                                Integer.valueOf(SiteWeb.getText()),
-                                String.valueOf(Email.getText()).toString(),
-                                String.valueOf(Telephone.getText()).toString()
+                                Integer.valueOf(volumehoraire.getText()),
+                                String.valueOf(langue.getText()).toString(),
+                                String.valueOf(modeEnseignement.getText()).toString()
                           
                                             );
                         System.out.println("data   == "+h);
@@ -314,15 +320,17 @@ public class AjouterHotelForm extends BaseForm {
                MimeMessage msg = new MimeMessage( session);
                 
                 msg.setFrom(new InternetAddress("malek.ayadi@esprit.tn"));
-                msg.setRecipients(Message.RecipientType.TO,"m.benzarti.1996@gmail.com");
-                msg.setSubject("traveminers");
-               String txt = "salut mohamed ";
+                msg.setRecipients(Message.RecipientType.TO,"malek.ayadi@esprit.tn");
+                msg.setSubject("Ajout de la formation");
+                
+                String txt = "Bonjour la formation a bien été ajouté , les données de la formation :" ;
+                
                 msg.setText(txt);
                 String mp = "";
                 //String txt = "salut";
                 
                 SMTPTransport st = (SMTPTransport)session.getTransport("smtps");
-                st.connect("smtp.gmail.com",465,"m.benzarti.1996@gmail.com","redtube96");
+                st.connect("smtp.gmail.com",465,"samiammar16@gmail.com","16Samsouma");
                 st.sendMessage(msg, msg.getAllRecipients());
                 
                 System.out.println("com.mycompany.gui.AjouterHotelForm.sendMail()");

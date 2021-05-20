@@ -56,7 +56,6 @@ public class MyApplication {
         }
           //new SignUpForm(theme).show();
       new SignInForm(theme).show();
-      // new AjoutApprenantForm(theme).show();
     }
 
     public void stop() {

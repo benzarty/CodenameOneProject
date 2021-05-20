@@ -111,11 +111,11 @@ public class ListHotelForm extends BaseForm {
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton mesListes = RadioButton.createToggle("Les hotels", barGroup);
+        RadioButton mesListes = RadioButton.createToggle("Home", barGroup);
         mesListes.setUIID("SelectBar");
         RadioButton liste = RadioButton.createToggle("ajouter", barGroup);
         liste.setUIID("SelectBar");
-        RadioButton partage = RadioButton.createToggle("Reclamer", barGroup);
+        RadioButton partage = RadioButton.createToggle("Formation", barGroup);
         partage.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
@@ -127,6 +127,13 @@ public class ListHotelForm extends BaseForm {
         //  ListReclamationForm a = new ListReclamationForm(res);
           //  a.show();
             refreshTheme();
+        });
+        
+          mesListes.addActionListener((e) -> {
+               
+       
+         new ActionsTodo(res).show();
+        
         });
 
         add(LayeredLayout.encloseIn(

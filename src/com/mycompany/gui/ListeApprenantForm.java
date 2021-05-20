@@ -106,6 +106,8 @@ public class ListeApprenantForm extends BaseForm {
 
         RadioButton partage = RadioButton.createToggle("Gestion Apprenant", barGroup);
         partage.setUIID("SelectBar");
+         RadioButton addApp = RadioButton.createToggle("Add Apprenant", barGroup);
+        addApp.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
         mesListes.addActionListener((b) -> {
@@ -119,7 +121,7 @@ public class ListeApprenantForm extends BaseForm {
         });
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, mesListes, partage),
+                GridLayout.encloseIn(3, mesListes, partage,addApp),
                 FlowLayout.encloseBottom(arrow)));
 
         partage.setSelected(true);
@@ -135,13 +137,13 @@ public class ListeApprenantForm extends BaseForm {
             updateArrowposition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
 
-        Button btnAnnuler = new Button("Add Apprenant");
-        addStringValue("", btnAnnuler);
-        btnAnnuler.addActionListener(c -> {
+       // Button btnAnnuler = new Button("Add Apprenant");
+       // addStringValue("", btnAnnuler);
+        addApp.addActionListener(c -> {
             new AjoutApprenantForm(res).show();
         });
 
-        Button pdf = new Button("pdf");
+        Button pdf = new Button("Convert pdf");
         addStringValue("", pdf);
 
         pdf.addPointerPressedListener(l -> {
