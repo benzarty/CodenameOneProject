@@ -34,7 +34,6 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Reclamation;
-import com.mycompany.entities.Users;
 import com.mycompany.services.ServiceReclamation;
 import java.util.ArrayList;
 import java.util.Date;
@@ -113,7 +112,7 @@ public class ListArchiveForm extends BaseForm{
     private void addButton(Reclamation rec,Resources res) {
         
        Form f =  new Form("Form", BoxLayout.y());    
-       Label titre=new Label("Title :"+rec.getTitle(),"NewsTopLine2");
+       Label title=new Label("Title :"+rec.getTitle(),"NewsTopLine2");
        Label etat=new Label("Etat :"+rec.getEtat(),"NewsTopLine2");
        
 
@@ -126,21 +125,23 @@ public class ListArchiveForm extends BaseForm{
         lSupprimer.setIcon(supprimerImage);
         lSupprimer.setTextPosition(RIGHT); 
         lSupprimer.addPointerPressedListener(l -> { Dialog dig=new Dialog("Suppression"); 
-        if(dig.show("Suppression","Vous voullez supprimer cette reclamation ?","Annuler","Oui")){    dig.dispose();      }
-        else{  dig.dispose(); if(ServiceReclamation.getInstance().deleteReclamation(rec.getId())){ new ListArchiveForm(res).show(); }}   });
+        if(dig.show("Suppression","Vous voullez mettre cette reclamation dans la corbeille ?","Annuler","Oui")){    dig.dispose();      }
+        else{  dig.dispose(); if(ServiceReclamation.getInstance().corbeilleReclamation(rec.getId())){ new ListArchiveForm(res).show(); }}   });
         
         
-        Label lModifier=new Label("Modifier ");
-        lModifier.setUIID("NewsTopLine");
-        Style modifierStyle=new Style(lModifier.getUnselectedStyle());
-        modifierStyle.setFgColor(0xf7ad02);
+       Label lRestaurer=new Label("Restaurer ");
+        lRestaurer.setUIID("NewsTopLine");
+        Style restaurerStyle=new Style(lRestaurer.getUnselectedStyle());
+        restaurerStyle.setFgColor(0x008000);
         
-        FontImage mFontImage=FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
-        lModifier.setIcon(mFontImage);
-        lModifier.setTextPosition(RIGHT);  
-        lModifier.addPointerPressedListener(l -> { new ModifierReclamationForm(res,rec).show();    });
+        FontImage restaurerImage=FontImage.createMaterial(FontImage.MATERIAL_REDO, restaurerStyle);
+        lRestaurer.setIcon(restaurerImage);
+        lRestaurer.setTextPosition(RIGHT); 
+        lRestaurer.addPointerPressedListener(l -> { Dialog dig=new Dialog("Restauration"); 
+        if(dig.show("Restauration","Vous voullez restaurer cette reclamation dans la boite de reception ?","Annuler","Oui")){    dig.dispose();  }
+        else{  dig.dispose(); if(ServiceReclamation.getInstance().restaurerReclamation(rec.getId())){ new ListCorbeilleForm(res).show(); }}   });
     
-         f.addAll(titre,etat,lModifier,lSupprimer);
+         f.addAll(title,etat,lRestaurer,lSupprimer);
         add(f);
     }
 

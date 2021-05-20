@@ -10,8 +10,8 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.l10n.ParseException;
 import com.codename1.ui.events.ActionListener;
-import com.mycompany.entities.Users;
 import com.mycompany.entities.Reclamation;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class ServiceReclamation {
     public static boolean resulatok=true;
     private ConnectionRequest req;
     public ArrayList<Reclamation> recs;
-    public boolean resultOK;
+
 
     
     
@@ -49,8 +49,8 @@ public class ServiceReclamation {
         NetworkManager.getInstance().addToQueueAndWait(req);   }
     
     
-   
-    public ArrayList<Reclamation> affichageReclamation(int id)
+   @SuppressWarnings("unchecked")
+    public ArrayList<Reclamation> affichageReclamation(int id) 
     {
         ArrayList<Reclamation> result=new ArrayList<>();
         String url=Statics.BASE_URL+"/RUjson/"+id;
@@ -59,32 +59,28 @@ public class ServiceReclamation {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 JSONParser json;
-                json =new JSONParser();
-                try{
-                     Map<String, Object> mapReclamations = json.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
-                    List<Map<String, Object>> listofMaps = (List<Map<String, Object>>) mapReclamations.get("root");
-                    
-                    
-                    for(Map<String,Object> obj : listofMaps)
-                    {
-                        Reclamation re=new Reclamation();
-                        
-                        float id=Float.parseFloat(obj.get("id").toString());                      
-                        String title=obj.get("title").toString();
-                        String etat=obj.get("etat").toString();
-                        String date=obj.get("date").toString();
-                        String recl=obj.get("recl").toString();
-                        
-                             
-                        re.setId((int) id);
-                        re.setTitle(title);
-                        re.setEtat(etat);
-                        re.setDate(date);   
-                        re.setRecl(recl);   
-                        result.add(re);                      
-                    }                   
-                } catch (IOException ex) {System.out.println("good");       }
-            }   });
+                json = new JSONParser();
+            try {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> mapReclamations = json.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> listofMaps = (List<Map<String, Object>>) mapReclamations.get("root");
+                for (Map<String,Object> obj : listofMaps) {
+                    Reclamation re=new Reclamation();
+                    float id1 = Float.parseFloat(obj.get("id").toString());
+                    String title=obj.get("title").toString();
+                    String etat=obj.get("etat").toString();
+                    String date=obj.get("date").toString();
+                    String recl=obj.get("recl").toString();
+                    re.setId((int) id1);
+                    re.setTitle(title);
+                    re.setEtat(etat);
+                    re.setDate(date);
+                    re.setRecl(recl);
+                    result.add(re);
+                }
+            }catch (IOException ex) {}     }
+        });
                     NetworkManager.getInstance().addToQueueAndWait(req); 
                     return result;         }
     
@@ -128,26 +124,23 @@ public class ServiceReclamation {
     
     
     
+  
+    
+      
     public boolean modifierReclamation(Reclamation r)
     {
-        String url=Statics.BASE_URL+"/UpdateRUJson?id="+r.getId()+"&recl="+r.getRecl()+"&title="+r.getTitle();
-        req.setUrl(url);
-        req.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                
-                resulatok=req.getResponseCode() == 200 ;
-                req.removeResponseListener(this);
-            }
-        });
-        
-        
+        String url =Statics.BASE_URL+"/UpdateRUJson/new?&title="+r.getTitle()+"&recl="+r.getRecl();  req.setUrl(url);     
+              req.addResponseListener(new ActionListener<NetworkEvent>() {
+                  @Override
+                  public void actionPerformed(NetworkEvent evt) {
+                      resulatok = req.getResponseCode() == 200; //code response http
+                      req.removeResponseListener(this);
+                  }
+              });
+              
                 NetworkManager.getInstance().addToQueueAndWait(req);
                 return resulatok;
-
-        
     }
-    
     
     
     public ArrayList<Reclamation> affichageRC(int id)

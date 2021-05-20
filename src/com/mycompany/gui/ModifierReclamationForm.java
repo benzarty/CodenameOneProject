@@ -7,6 +7,7 @@ package com.mycompany.gui;
 
 import com.codename1.components.FloatingHint;
 import com.codename1.ui.Button;
+import com.codename1.ui.ComboBox;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
@@ -19,59 +20,86 @@ import com.mycompany.services.ServiceReclamation;
 
 /**
  *
- * @author ASUS
+ * @author lenovo
  */
-public class ModifierReclamationForm extends BaseForm{
+public class ModifierReclamationForm extends BaseForm {
     
     Form current;
-    public ModifierReclamationForm(Resources res,Reclamation r){
-        
-            super("Newsfeed",BoxLayout.y());
-        Toolbar tb=new Toolbar(true);
-        current=this;
+    public ModifierReclamationForm (Resources res , Reclamation r)
+    {
+        super("Newsfeed",BoxLayout.y());
+        Toolbar tb = new Toolbar(true);
+        current = this;
         setToolbar(tb);
-        getTitleArea().setUIID("Container");
-        setTitle("");
+        getTitleArea().setUIID("container");
+        setTitle("AjouterHotel");
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
         
-        TextField title =new TextField(r.getTitle(),"Title",20,TextField.ANY);
-        TextField recl =new TextField(r.getRecl(),"Reclamation",20,TextField.ANY);
+        TextField Title = new TextField(r.getTitle(),"Title",20, TextField.ANY);
+        TextField Recl = new TextField(String.valueOf(r.getRecl()),"Reclamation",20, TextField.ANY);
         
         
-        title.setUIID("NewsTopLine");
-        recl.setUIID("NewsTopLine");
+       
         
-        title.setSingleLineTextArea(true);
-        recl.setSingleLineTextArea(true);
-        
-        Button btnModifier=new Button("Modifier");
-        btnModifier.setUIID("Button");
-        
-        btnModifier.addPointerPressedListener(l->{
-        r.setTitle(title.getText());
-        r.setRecl(recl.getText());
+        Title.setUIID("NewsTopLine");
+        Recl.setUIID("NewsTopLine");
+
         
         
         
+        Title.setSingleLineTextArea(true);
+        Recl.setSingleLineTextArea(true);   
+    
         
-        if(ServiceReclamation.getInstance().modifierReclamation(r)){ new ListReclamationForm(res).show(); } });
+        Button btnModifier = new Button("Modifier");
         
-        Button btnAnnuler=new Button("Annuler");
-        btnAnnuler.addPointerPressedListener(e->{  new ListReclamationForm(res).show();   });
         
-        Label l1=new Label("");
-        Label l2=new Label("");
-        Label l3=new Label("");
-        Label l4=new Label("");
-        Label l5=new Label("");
+        //onclique modifier
         
-        Container content = BoxLayout.encloseY(l1,l2,new FloatingHint(title),createLineSeparator(),new FloatingHint(recl),createLineSeparator(),btnModifier,btnAnnuler);
+        btnModifier.addPointerPressedListener( l ->  {
+            r.setTitle(Title.getText());
+            r.setRecl(Recl.getText());
+          
+        
+        
+        if(ServiceReclamation.getInstance().modifierReclamation(r))
+        {   new ListReclamationForm(res).show();  }  }    );
+        
+        Button btnAnnuller = new Button("Annuler");
+        btnAnnuller.addActionListener(e -> {
+            new ListReclamationForm(res).show();
+            
+        }
+                
+        );
+        
+      
+        Label l2 = new Label("");
+        Label l3 = new Label("");
+        Label l4 = new Label("");
+        Label l5 = new Label("");
+        
+        
+        Label l1 = new Label("");
+        
+        Container content = BoxLayout.encloseY(
+                
+                l1,l2,
+                new FloatingHint(Title),
+                createLineSeparator(),
+                new FloatingHint(Recl),
+                createLineSeparator(),
+
+               
+                l4,l5,
+                btnModifier,
+                btnAnnuller
+        );
+        
         add(content);
         show();
         
-
-    }
-    
+    }    
 }

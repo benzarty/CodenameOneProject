@@ -34,7 +34,6 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Reclamation;
-import com.mycompany.entities.Users;
 import com.mycompany.services.ServiceReclamation;
 import java.util.ArrayList;
 import java.util.Date;
@@ -113,7 +112,7 @@ public class ListCorbeilleForm extends BaseForm{
     private void addButton(Reclamation rec,Resources res) {
         
        Form f =  new Form("Form", BoxLayout.y());    
-       Label titre=new Label("Title :"+rec.getTitle(),"NewsTopLine2");
+       Label title=new Label("Title :"+rec.getTitle(),"NewsTopLine2");
        Label etat=new Label("Etat :"+rec.getEtat(),"NewsTopLine2");
        
 
@@ -142,7 +141,7 @@ public class ListCorbeilleForm extends BaseForm{
         if(dig.show("Restauration","Vous voullez restaurer cette reclamation dans la boite de reception ?","Annuler","Oui")){    dig.dispose();  }
         else{  dig.dispose(); if(ServiceReclamation.getInstance().restaurerReclamation(rec.getId())){ new ListCorbeilleForm(res).show(); }}   });
         
-        f.addAll(titre,etat,lRestaurer,lSupprimer);add(f);  }
+        f.addAll(title,etat,lRestaurer,lSupprimer);add(f);  }
 
     
     

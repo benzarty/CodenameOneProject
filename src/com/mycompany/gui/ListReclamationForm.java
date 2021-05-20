@@ -8,8 +8,12 @@ package com.mycompany.gui;
 import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
+import com.codename1.l10n.ParseException;
+import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.notifications.LocalNotification;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
+import com.codename1.ui.Calendar;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
@@ -26,6 +30,7 @@ import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
+import static com.codename1.ui.events.ActionEvent.Type.Calendar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -35,10 +40,11 @@ import com.codename1.ui.plaf.Style;
 import com.codename1.ui.table.TableLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Reclamation;
-import com.mycompany.entities.Users;
 import com.mycompany.services.ServiceReclamation;
 import java.util.ArrayList;
 import java.util.Date;
+import java.text.DateFormat;  
+import java.util.Date;  
 
 /**
  *
@@ -47,8 +53,23 @@ import java.util.Date;
 public class ListReclamationForm extends BaseForm{
     
     Form current;
+   
     
     
+   /* public void notif() {
+ Date d = new Date();  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+ String string_date = formatter.format(d);
+ SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+ try { Date dd = f.parse(string_date);  long dddd = d.getTime();  
+         System.out.println(dd); System.out.println(dddd);
+         
+            LocalNotification ln = new LocalNotification();
+            ln.setId("LnMessage");
+            ln.setAlertTitle("Welcome");
+            ln.setAlertBody("Thanks for arriving!");
+            Display.getInstance().scheduleLocalNotification(ln ,dddd, LocalNotification.REPEAT_NONE);  
+    
+     } catch (ParseException e) { e.printStackTrace();}    }  */
     
     public ListReclamationForm(Resources res){
         super("Newsfeed",BoxLayout.y());
@@ -100,9 +121,16 @@ public class ListReclamationForm extends BaseForm{
         // special case for rotation
         addOrientationListener(e -> { updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow); });
         
+       
+            
+            
             
         ArrayList<Reclamation>list = ServiceReclamation.getInstance().affichageReclamation(42);
-        for (Reclamation rec : list) {  addButton(rec,res);  } }
+        for (Reclamation rec : list) {  addButton(rec,res);  };
+      
+     
+
+    } 
     
      
     
@@ -111,7 +139,7 @@ public class ListReclamationForm extends BaseForm{
        Form fy =  new Form("FormY", BoxLayout.y());
        fy.setScrollable(false);
        
-       SpanLabel titre=new SpanLabel("Title : "+rec.getTitle(),"NewsTopLine2");
+       SpanLabel title=new SpanLabel("Title : "+rec.getTitle(),"NewsTopLine2");
        Label etat=new Label("Etat : "+rec.getEtat(),"NewsTopLine2");
 
         Label lSupprimer=new Label("Supprimer");
@@ -127,6 +155,7 @@ public class ListReclamationForm extends BaseForm{
         else{  dig.dispose(); if(ServiceReclamation.getInstance().corbeilleReclamation(rec.getId())){ new ListReclamationForm(res).show(); }}   });
         
         
+        //MODIFIER
         Label lModifier=new Label("Modifier ");
         lModifier.setUIID("NewsTopLine");
         Style modifierStyle=new Style(lModifier.getUnselectedStyle());
@@ -138,6 +167,7 @@ public class ListReclamationForm extends BaseForm{
         lModifier.addPointerPressedListener(l -> { new ModifierReclamationForm(res,rec).show();    });
           
         
+        //ARCHIVER
         Label lArchiver=new Label("Archiver");
         lArchiver.setUIID("NewsTopLine");
         Style archiverStyle=new Style(lArchiver.getUnselectedStyle());
@@ -148,13 +178,24 @@ public class ListReclamationForm extends BaseForm{
         lArchiver.setTextPosition(RIGHT); 
         lArchiver.addPointerPressedListener(l -> { Dialog dig=new Dialog("archiver"); 
         if(dig.show("archiver","Vous voullez archiver cette reclamation ?","Annuler","Oui")){    dig.dispose();      }
-        else{  dig.dispose(); if(ServiceReclamation.getInstance().archiverReclamation(rec.getId())){ new ListReclamationForm(res).show(); }}   });
+        else{  dig.dispose(); if(ServiceReclamation.getInstance().archiverReclamation(rec.getId())){ new ListReclamationForm(res).show();     
+        }}   });
           
-       // f.add(GridLayout.encloseIn(titre,etat,lModifier,lSupprimer,lArchiver)); add(f);
-        fy.addAll(titre,etat,lModifier,lSupprimer,lArchiver);  add(fy);
-       // f.add(BorderLayout.CENTER,BoxLayout.encloseY(BoxLayout.encloseX(titre),BoxLayout.encloseX(etat),BoxLayout.encloseX(lModifier,lSupprimer,lArchiver)));
-       // add(f);
+       //MESSAGERIE 
+     /*   Label lMessagerie=new Label("Messagerie");
+        lMessagerie.setUIID("NewsTopLine");
+        Style messagerieStyle=new Style(lMessagerie.getUnselectedStyle());
+        messagerieStyle.setFgColor(0xf7ad02);
         
+        FontImage xmFontImage=FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, messagerieStyle);
+        lMessagerie.setIcon(xmFontImage);
+        lMessagerie.setTextPosition(RIGHT);  
+        lMessagerie.addPointerPressedListener(l -> { new MessagerieForm(res,rec).show();    });
+        
+        */
+        
+        fy.addAll(title,etat,lModifier,lSupprimer,lArchiver);  add(fy);
+  
     }
 
     
