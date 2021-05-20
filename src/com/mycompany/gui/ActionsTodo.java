@@ -44,7 +44,6 @@ import java.util.Date;
 public class ActionsTodo extends BaseForm{
        Form current;
     public ActionsTodo(Resources res){
- //   super("musician", BoxLayout.x());
     
     Toolbar tb=new Toolbar(true);
     current=this;
